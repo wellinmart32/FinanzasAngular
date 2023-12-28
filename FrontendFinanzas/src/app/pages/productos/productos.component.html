@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="search-bar">
+        <input type="text" placeholder="Search" [(ngModel)]="searchTerm" />
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Logo</th>
+                <th>Nombre del Producto</th>
+                <th>Descripción</th>
+                <th>Fecha de Liberación</th>
+                <th>Fecha de Reestructuración</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="(paginatedProductos|searchFilter:searchTerm).length > 0; else noResults">
+                <tr *ngFor="let producto of paginatedProductos | searchFilter:searchTerm">
+                    <td><img [src]=" producto.logo" alt="Logo" width="50" height="50" />
+                    </td>
+                    <td>{{ producto.name }}</td>
+                    <td>{{ producto.description }}</td>
+                    <td>{{ producto.date_release | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{ producto.date_revision | date: 'dd/MM/yyyy'}}</td>
+                </tr>
+            </ng-container>
+            <ng-template #noResults>
+                <tr>
+                    <td colspan="5">No se encontraron resultados</td>
+                </tr>
+            </ng-template>
+        </tbody>
+    </table>
+
+    <!-- <div class="results-info">
+        Resultados: {{ productosList.length }}
+        <select [(ngModel)]="itemsPerPage">
+            <option *ngFor="let i of itemsPerPageList" [value]="i.value">{{i.label}}</option>
+        </select>
+    </div> -->
+    <div class="results-info">
+        <div class="pagination-results">
+            Resultados: {{ productosList.length }}
+            <select [(ngModel)]="itemsPerPage">
+                <option *ngFor="let i of itemsPerPageList" [value]="i.value">{{i.label}}</option>
+            </select>
+        </div>
+
+        <!-- Botones de paginación -->
+        <div class="pagination-container">
+            <button class="icon-button" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+                <fa-icon class="icon" [icon]="faArrowLeft"></fa-icon>
+            </button>
+            <div class="page-info">
+                Página {{ currentPage }} de {{ totalPages }}
+            </div>
+            <button class="icon-button" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+                <fa-icon class="icon" [icon]="faArrowRight"></fa-icon>
+            </button>
+        </div>
+
+    </div>
+</div>

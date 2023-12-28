@@ -1,0 +1,124 @@
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.results-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-results {
+    display: flex;
+    align-items: center;
+    /* Centra verticalmente los elementos en el contenedor */
+    gap: 2rem;
+    /* Ajusta el espacio horizontal entre los elementos según sea necesario */
+}
+
+.pagination-container {
+    display: flex;
+    align-items: center;
+    /* Centra verticalmente los elementos en el contenedor */
+    gap: .5rem;
+    /* Ajusta el espacio horizontal entre los elementos según sea necesario */
+}
+
+.icon-button {
+    width: 32px;
+    /* Ajusta el tamaño según sea necesario */
+    height: 32px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 8px;
+    /* Ajusta el margen según sea necesario */
+    border-radius: 50%;
+    /* Borde circular */
+    border: 2px solid;
+    /* Borde azul */
+    background-color: white;
+    border-color: white;
+    /* Fondo celeste */
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+// .icon-button:hover {
+//     background-color: #93e9ff;
+//     border-color: #9dd5fa;
+// }
+
+.icon {
+    font-size: 1.5em;
+    color: rgb(124, 153, 255);
+    width: 100%;
+    height: 100%;
+}
+
+.page-info {
+    background-color: #ffffff;
+    /* Fondo celeste */
+    border: .1px solid #b5b5b5;
+    /* Borde azul */
+    border-radius: 4px;
+    /* Borde redondeado */
+    padding: 4px 8px;
+    /* Ajusta el espaciado interno según sea necesario */
+    font-size: 14px;
+    /* Ajusta el tamaño de fuente según sea necesario */
+    user-select: none;
+}
+
+.auto-sizing-input-container {
+    display: inline-block;
+    position: relative;
+}
+
+.auto-sizing-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+    /* Ajusta el tamaño de fuente según sea necesario */
+    padding: 5px;
+    /* Ajusta el espaciado interno según sea necesario */
+    margin: 0;
+    border: 1px solid #ccc;
+    /* Borde del input */
+    border-radius: 4px;
+    /* Borde redondeado */
+    outline: none;
+    /* Quita el contorno predeterminado al hacer clic */
+}
+
+/* Estilo adicional para resaltar el input al enfocarlo */
+.auto-sizing-input:focus {
+    border-color: #3498db;
+    /* Cambia el color del borde al enfocar el input */
+}
