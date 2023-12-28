@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
 
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -9,11 +9,15 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './productos.component.scss'
 })
 export class ProductosComponent {
+  @ViewChild('dropdownCheckbox') dropdownCheckbox!: ElementRef<HTMLInputElement>;
+
   productosList: any[] = [];
   errorMessage: string = '';
   itemsPerPage: number = 1;
   currentPage: number = 1;
   searchTerm: string = '';
+
+  mostrarDropdown = false;
 
   itemsPerPageList = [
     {
@@ -69,6 +73,31 @@ export class ProductosComponent {
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
+    }
+  }
+
+  editarProducto(producto: any){
+
+  }
+
+  eliminarProducto(producto: any){
+
+  }
+
+  toggleDropdown(event: any) {
+    event.stopPropagation();
+    this.mostrarDropdown = !this.mostrarDropdown;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: any) {
+    // Ocultar el Drop Down si se hace clic fuera de él
+    if (!event.target['closest']('.dropdown')) {
+      this.mostrarDropdown = false;
+      // Cambiar el valor de la casilla de verificación a false
+      
+      this.dropdownCheckbox.nativeElement.checked = false;
+      
     }
   }
 }

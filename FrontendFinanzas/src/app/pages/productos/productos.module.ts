@@ -6,11 +6,13 @@ import { ProductosComponent } from './productos.component';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchFilterPipe } from '../../shared/custom/search-filter.pipe';
+import { CrearEditarProductoComponent } from './crear-editar-producto/crear-editar-producto.component';
 
 @NgModule({
   declarations: [
     ProductosComponent,
-    SearchFilterPipe
+    SearchFilterPipe,
+    CrearEditarProductoComponent
   ],
   imports: [
     CommonModule,

@@ -9,14 +9,16 @@
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-bottom: 20px;
 }
 
 table,
 th,
 td {
-    border: 1px solid #ddd;
+    border: none; /* Elimina los bordes predeterminados */
+    border-bottom: 1px solid #ddd;
 }
 
 th,
@@ -121,4 +123,38 @@ th {
 .auto-sizing-input:focus {
     border-color: #3498db;
     /* Cambia el color del borde al enfocar el input */
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    display: none;
+}
+
+.dropdown-toggle + label {
+    cursor: pointer;
+    padding: 5px;
+    display: inline-block;
+}
+
+.dropdown-toggle:checked + label + .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    z-index: 1;
+}
+
+.dropdown-menu button {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: #333;
 }
