@@ -19,23 +19,23 @@ export class MensajesService {
   }
 
   mostrarMensajeConfirmacion(mensaje: string): Promise<boolean> {
-    return this.mostrarMensaje('warning', 'Confirmación', mensaje, 'Si', 'No');
+    return this.mostrarMensaje('warning', 'Confirmación', mensaje, 'Cancelar', 'Confirmar');
   }
 
   private mostrarMensaje(
     icon: SweetAlertIcon,
     titulo: string,
     mensaje: string,
-    confirmButtonText?: string,
-    cancelButtonText?: string
+    cancelButtonText?: string,
+    confirmButtonText?: string
   ): Promise<boolean> {
     return Swal.fire({
       icon,
       title: titulo,
       text: mensaje,
-      confirmButtonText: confirmButtonText || 'Aceptar',
       showCancelButton: cancelButtonText ? true : false,
       cancelButtonText: cancelButtonText || '',
+      confirmButtonText: confirmButtonText || 'Aceptar'
     }).then((result) => {
       return result.isConfirmed;
     });

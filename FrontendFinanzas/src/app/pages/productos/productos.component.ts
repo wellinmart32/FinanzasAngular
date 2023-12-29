@@ -62,7 +62,6 @@ export class ProductosComponent {
     this.mostrarSpinner = true;
     this.apiService.obtenerDatos(endpoint).subscribe(
       (data: any) => {
-        console.log(data);
         this.mostrarSpinner = false;
         this.productosList = data;
       },
@@ -91,14 +90,13 @@ export class ProductosComponent {
   }
 
   editarProducto(producto: any) {
-    console.log(producto);
     this.sharedData.actualizarProducto(producto);
     this.router.navigateByUrl('/pages/productos/crear-editar');
   }
 
   async eliminarProducto(producto: any) {
     const id = producto.id;
-    const conf = await this.mensajesService.mostrarMensajeConfirmacion("Estas seguro de eliminar el producto " + producto.name + " ?")
+    const conf = await this.mensajesService.mostrarMensajeConfirmacion("¿Estas seguro de eliminar el producto " + producto.name + "?")
     if (conf) {
       this.mostrarSpinner = true;
       // Acciones a realizar si el usuario confirmó

@@ -74,7 +74,6 @@ export class CrearEditarProductoComponent {
     this.sharedData.productoActual.subscribe(producto => {
       // Lógica cuando el producto cambia
       if (producto) {
-        console.log(producto);
         this.isEdit = true;
         this.mostrarSpinner = false;
         this.llenarFormulario(producto);
@@ -172,6 +171,10 @@ export class CrearEditarProductoComponent {
     }
   }
 
+  volverFormulario() {
+    this.router.navigateByUrl('/pages/productos');
+  }
+
   reiniciarFormulario() {
     this.formulario.reset();
   }
@@ -197,7 +200,6 @@ export class CrearEditarProductoComponent {
     }
     this.apiService.crearRegistro(endpoint, body).subscribe(
       (data: any) => {
-        console.log(data);
         this.mostrarSpinner = false;
         this.mensajesService.mostrarMensajeExitoso("Producto creado satisfactoriamente.");
         this.router.navigateByUrl('/pages/productos');
@@ -212,7 +214,6 @@ export class CrearEditarProductoComponent {
   }
 
   editarProducto() {
-    console.log(this.isEdit);
     this.mostrarSpinner = true;
     let endpoint = "bp/products";
     let body = {
@@ -225,7 +226,6 @@ export class CrearEditarProductoComponent {
     }
     this.apiService.editarRegistro(endpoint, body).subscribe(
       (data: any) => {
-        console.log(data);
         this.mostrarSpinner = false;
         this.mensajesService.mostrarMensajeExitoso("Producto actualizado satisfactoriamente.");
         this.router.navigateByUrl('/pages/productos');
