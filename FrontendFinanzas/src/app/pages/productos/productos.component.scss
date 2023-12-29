@@ -117,11 +117,6 @@ th {
     transition: background-color 0.3s, border-color 0.3s;
 }
 
-// .icon-button:hover {
-//     background-color: #93e9ff;
-//     border-color: #9dd5fa;
-// }
-
 .icon {
     font-size: 1.5em;
     color: rgb(124, 153, 255);
@@ -203,3 +198,64 @@ th {
     text-decoration: none;
     color: #333;
 }
+
+/* Estilos para pantallas grandes (por ejemplo, computadoras de escritorio) */
+// @media only screen and (min-width: 1024px) {
+//     /* Agrega estilos específicos para pantallas grandes */
+//   }
+  
+//   /* Estilos para pantallas medianas (por ejemplo, tablets) */
+//   @media only screen and (max-width: 1023px) and (min-width: 768px) {
+//     .tabla-customizada {
+//         border-collapse: collapse;
+//         width: 100%;
+//     }
+    
+//     .tabla-customizada th, .tabla-customizada td {
+//         border: 1px solid #ddd;
+//         padding: 8px;
+//         text-align: left;
+//     }
+    
+//     .tabla-customizada tr {
+//         position: relative;
+//     }
+    
+//     .tabla-customizada tr::after {
+//         content: "";
+//         position: absolute;
+//         bottom: 0;
+//         left: 0;
+//         width: 100%;
+//         height: 1px;
+//         background-color: #333; /* Color de la barra horizontal */
+//     }
+//   }
+  
+//   /* Estilos para pantallas pequeñas (por ejemplo, dispositivos móviles) */
+//   @media only screen and (max-width: 767px) {
+    .tabla-customizada {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    .tabla-customizada th, .tabla-customizada td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    
+    .tabla-customizada tr {
+        position: relative;
+    }
+    
+    .tabla-customizada tr::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #333; /* Color de la barra horizontal */
+    }
+//   }

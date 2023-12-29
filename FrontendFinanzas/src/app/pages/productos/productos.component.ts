@@ -43,10 +43,12 @@ export class ProductosComponent {
   // Agrega la propiedad noResults
   noResults: boolean = false;
 
-  constructor(private apiService: ApiService,
+  constructor(
+    private apiService: ApiService,
     private router: Router,
     private sharedData: SharedDataService,
-    private mensajesService: MensajesService) { }
+    private mensajesService: MensajesService
+  ) { }
 
   ngOnInit(): void {
     this.getProductos();
@@ -62,7 +64,6 @@ export class ProductosComponent {
     this.mostrarSpinner = true;
     this.apiService.obtenerDatos(endpoint).subscribe(
       (data: any) => {
-        console.log(data);
         this.mostrarSpinner = false;
         this.productosList = data;
       },
