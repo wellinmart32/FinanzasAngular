@@ -1,15 +1,32 @@
+.main-container {
+    height: 50rem;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .container {
-    max-width: 800px;
-    margin: auto;
+    padding: 2rem 1.5rem;
+    max-width: 1000px;
+    height: 35rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: normal;
+
+    font-size: 12px;
+    background-color: #ffffff;
+    border-radius: 3px;
 }
 
 .container-search-button {
-    padding: .5rem 0;
+    padding: .5rem 0rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -68,9 +85,8 @@ th {
 .pagination-results {
     display: flex;
     align-items: center;
-    /* Centra verticalmente los elementos en el contenedor */
     gap: 2rem;
-    /* Ajusta el espacio horizontal entre los elementos según sea necesario */
+    font-weight: bold;
 }
 
 .pagination-container {
@@ -81,21 +97,23 @@ th {
     /* Ajusta el espacio horizontal entre los elementos según sea necesario */
 }
 
+.pagination-square {
+    padding: .2rem .2rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .icon-button {
     width: 32px;
-    /* Ajusta el tamaño según sea necesario */
     height: 32px;
     cursor: pointer;
     display: inline-block;
     margin: 0 8px;
-    /* Ajusta el margen según sea necesario */
     border-radius: 50%;
-    /* Borde circular */
     border: 2px solid;
-    /* Borde azul */
     background-color: white;
     border-color: white;
-    /* Fondo celeste */
     transition: background-color 0.3s, border-color 0.3s;
 }
 

@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { CustomModule } from './shared/custom/custom.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -17,7 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CustomModule
   ],
   providers: [
     provideClientHydration()

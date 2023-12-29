@@ -8,7 +8,7 @@
             <div class="fila">
                 <div class="columna">
                     <label>ID</label>
-                    <input type="text" formControlName="id" />
+                    <input [readonly]="isEdit" type="text" formControlName="id" placeholder="Ingrese un ID único" />
                     <div *ngIf="controlHasError('id', 'required')">
                         ID es requerido.
                     </div>
@@ -18,10 +18,14 @@
                     <div *ngIf="controlHasError('id', 'maxlength')">
                         ID no puede tener más de 10 caracteres.
                     </div>
+                    <div
+                        *ngIf="errorOnValidator('id') && !controlHasError('id', 'required') && !controlHasError('id', 'minlength') && !controlHasError('id', 'maxlength')">
+                        ID debe ser único.
+                    </div>
                 </div>
                 <div class="columna">
                     <label>Nombre</label>
-                    <input type="text" formControlName="nombre" />
+                    <input type="text" formControlName="nombre" placeholder="Ingrese un nombre" />
                     <div *ngIf="controlHasError('nombre', 'required')">
                         Nombre es requerido.
                     </div>
@@ -36,7 +40,7 @@
             <div class="fila">
                 <div class="columna">
                     <label>Descripción</label>
-                    <input type="text" formControlName="descripcion" />
+                    <input type="text" formControlName="descripcion" placeholder="Ingrese una descripción" />
                     <div *ngIf="controlHasError('descripcion', 'required')">
                         Descripcion es requerido.
                     </div>
@@ -49,7 +53,7 @@
                 </div>
                 <div class="columna">
                     <label>Logo</label>
-                    <input type="text" formControlName="logo" />
+                    <input type="text" formControlName="logo" placeholder="Ingrese el url de una imagen" />
                     <div *ngIf="controlHasError('logo', 'required')">
                         Logo es requerido.
                     </div>
@@ -58,17 +62,18 @@
             <div class="fila">
                 <div class="columna">
                     <label>Fecha Liberación</label>
-                    <input type="text" formControlName="fechaLiberacion" (keyup)="llenarFechaRevision($event)" />
+                    <input type="text" formControlName="fechaLiberacion" (keyup)="llenarFechaRevision($event)"
+                        placeholder="dd/mm/aaaa" />
                     <div *ngIf="controlHasError('fechaLiberacion', 'required')">
                         Fecha Liberación es requerido.
                     </div>
-                    <div *ngIf="errorOnValidator('fechaLiberacion')">
+                    <div *ngIf="errorOnValidator('fechaLiberacion') && !controlHasError('fechaLiberacion', 'required')">
                         Fecha Liberación debe ser mayor o igual a hoy.
                     </div>
                 </div>
                 <div class="columna">
                     <label>Fecha Revisión</label>
-                    <input readonly type="text" formControlName="fechaRevision" />
+                    <input readonly type="text" formControlName="fechaRevision" placeholder="dd/mm/aaaa" />
                     <div *ngIf="controlHasError('fechaRevision', 'required')">
                         Fecha Revisión es requerido.
                     </div>
@@ -82,3 +87,4 @@
         <button (click)="enviarFormulario()" [disabled]="formulario.invalid">Enviar</button>
     </div>
 </div>
+<app-spinner [mostrar]="mostrarSpinner"></app-spinner>

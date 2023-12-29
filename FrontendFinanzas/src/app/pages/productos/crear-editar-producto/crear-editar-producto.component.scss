@@ -27,6 +27,15 @@
     margin-top: 20px;
 }
 
+input {
+    border-radius: 4px;
+    padding: 5% 5% 5% 5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    // border-color: black;
+}
+
 /* Estilo para resaltar los campos inválidos */
 input.ng-invalid {
     border: 1px solid red;

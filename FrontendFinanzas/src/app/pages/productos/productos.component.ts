@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api/api.service';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 //ronnyts
 import { Router } from '@angular/router';
+import { SharedDataService } from '../../services/general/shared-data.service';
+import { MensajesService } from '../../services/general/mensajes.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-productos',
@@ -15,17 +18,15 @@ export class ProductosComponent {
 
   productosList: any[] = [];
   errorMessage: string = '';
-  itemsPerPage: number = 1;
+  itemsPerPage: number = 5;
   currentPage: number = 1;
   searchTerm: string = '';
 
-  mostrarDropdown = false;
+  mostrarDropdown: boolean = false;
+  mostrarSpinner: boolean = false;
 
   itemsPerPageList = [
     {
-      value: 1,
-      label: '1'
-    }, {
       value: 5,
       label: '5'
     }, {
@@ -42,7 +43,10 @@ export class ProductosComponent {
   // Agrega la propiedad noResults
   noResults: boolean = false;
 
-  constructor(private apiService: ApiService, private router: Router) { }
+  constructor(private apiService: ApiService,
+    private router: Router,
+    private sharedData: SharedDataService,
+    private mensajesService: MensajesService) { }
 
   ngOnInit(): void {
     this.getProductos();
@@ -53,13 +57,17 @@ export class ProductosComponent {
   }
 
   getProductos() {
-    let endpoint = "/bp/products";
+    let endpoint = "bp/products";
+    this.productosList = [];
+    this.mostrarSpinner = true;
     this.apiService.obtenerDatos(endpoint).subscribe(
       (data: any) => {
         console.log(data);
+        this.mostrarSpinner = false;
         this.productosList = data;
       },
       error => {
+        this.mostrarSpinner = false;
         this.errorMessage = 'Error al obtener productos financieros. Por favor, inténtalo de nuevo más tarde.';
         console.error(this.errorMessage, error);
       }
@@ -83,11 +91,38 @@ export class ProductosComponent {
   }
 
   editarProducto(producto: any) {
-
+    console.log(producto);
+    this.sharedData.actualizarProducto(producto);
+    this.router.navigateByUrl('/pages/productos/crear-editar');
   }
 
-  eliminarProducto(producto: any) {
+  async eliminarProducto(producto: any) {
+    const id = producto.id;
+    const conf = await this.mensajesService.mostrarMensajeConfirmacion("Estas seguro de eliminar el producto " + producto.name + " ?")
+    if (conf) {
+      this.mostrarSpinner = true;
+      // Acciones a realizar si el usuario confirmó
+      let parametros = new HttpParams().set('id', id);
+      let endpoint = "bp/products";
 
+      this.apiService.eliminarRegistro(endpoint, parametros).subscribe(
+        (data: any) => {
+          this.mostrarSpinner = false;
+          this.mensajesService.mostrarMensajeExitoso("Producto eliminado satisfactoriamente.");
+          this.getProductos();
+        },
+        error => {
+          this.mostrarSpinner = false;
+          if (error.status === 200) {
+            this.mensajesService.mostrarMensajeExitoso("Producto eliminado satisfactoriamente.");
+            this.getProductos();
+          } else {
+            this.mensajesService.mostrarMensajeError("Error al eliminar el producto. Por favor, inténtalo de nuevo más tarde.");
+            this.errorMessage = 'Error al eliminar el producto. Por favor, inténtalo de nuevo más tarde.';
+          }
+        }
+      )
+    }
   }
 
   toggleDropdown(event: any) {

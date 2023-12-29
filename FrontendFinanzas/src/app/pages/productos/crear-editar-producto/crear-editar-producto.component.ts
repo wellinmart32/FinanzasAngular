@@ -1,6 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ApiService } from '../../../services/api/api.service';
+import { HttpParams } from '@angular/common/http';
+import { MensajesService } from '../../../services/general/mensajes.service';
+import { UtilService } from '../../../services/general/util.service';
+import { Router } from '@angular/router';
+import { SharedDataService } from '../../../services/general/shared-data.service';
 
 const today = new Date();
 today.setUTCHours(0, 0, 0, 0);
@@ -19,17 +25,28 @@ const datePattern = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/;
 
 
 export class CrearEditarProductoComponent {
+  @Input() isEdit: boolean = false;
+
   formulario: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  errorMessage: string = '';
+  mostrarSpinner: boolean = false;
+
+  constructor(private fb: FormBuilder,
+    private apiService: ApiService,
+    private mensajesService: MensajesService,
+    private util: UtilService,
+    private router: Router,
+    private sharedData: SharedDataService) {
 
     this.formulario = this.fb.group({
       id: ['', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(10),
-        // this.idValidator
-      ]],
+      ],
+        [this.idAsyncValidator()]
+      ],
       nombre: ['', [
         Validators.required,
         Validators.minLength(5),
@@ -53,7 +70,29 @@ export class CrearEditarProductoComponent {
   }
 
   ngOnInit() {
+    this.mostrarSpinner = true;
+    this.sharedData.productoActual.subscribe(producto => {
+      // Lógica cuando el producto cambia
+      if (producto) {
+        console.log(producto);
+        this.isEdit = true;
+        this.mostrarSpinner = false;
+        this.llenarFormulario(producto);
+      }
+    });
+    if (!this.isEdit) this.mostrarSpinner = false;
+  }
 
+  llenarFormulario(producto: any) {
+    let editForm = {
+      id: producto.id,
+      nombre: producto.name,
+      descripcion: producto.description,
+      logo: producto.logo,
+      fechaLiberacion: this.util.desformatearFecha(producto.date_release),
+      fechaRevision: this.util.desformatearFecha(producto.date_revision),
+    }
+    this.formulario.patchValue(editForm);
   }
 
   errorOnValidator(controlName: string) {
@@ -69,14 +108,31 @@ export class CrearEditarProductoComponent {
     return (control?.hasError(errorType) && control?.touched) ?? false;
   }
 
-  idValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      // Aquí puedes implementar tu propia lógica de validación para el ID
-      const valid = false;
+  idAsyncValidator(): ValidatorFn {
+    return (control: AbstractControl): Promise<ValidationErrors | null> => {
+      let id = control.value;
+      if (!id || id.length < 3 || id.length > 10) {
+        return Promise.resolve(null);
+      }
 
-      return valid ? null : { 'invalidId': { value: control.value } };
+      let parametros = new HttpParams().set('id', control.value);
+
+      let endpoint = "bp/products/verification";
+
+      return this.apiService.obtenerDatos(endpoint, parametros).toPromise()
+        .then(data => {
+          if (this.isEdit) {
+            return null;
+          } else if (data === true) {
+            return { 'invalidId': true };
+          } else {
+            return null;
+          }
+        })
+        .catch(() => null); // Manejar errores de la petición, retornar null en caso de error
     };
   }
+
 
   // Función personalizada de validación
   fechaLiberacionValidator(control: FormControl) {
@@ -103,7 +159,6 @@ export class CrearEditarProductoComponent {
   }
 
   llenarFechaRevision(evento: any) {
-    console.log(evento.target.value);
     let fechaLiberacion = evento.target.value;
     if (fechaLiberacion.length != 10) {
       return;
@@ -122,6 +177,66 @@ export class CrearEditarProductoComponent {
   }
 
   enviarFormulario() {
-    // Lógica para enviar el formulario
+    if (this.isEdit) {
+      this.editarProducto();
+    } else {
+      this.crearProducto();
+    }
   }
+
+  crearProducto() {
+    this.mostrarSpinner = true;
+    let endpoint = "bp/products";
+    let body = {
+      id: this.formulario.get("id")?.value,
+      name: this.formulario.get("nombre")?.value,
+      description: this.formulario.get("descripcion")?.value,
+      logo: this.formulario.get("logo")?.value,
+      date_release: this.util.formatearFecha(this.formulario.get("fechaLiberacion")?.value),
+      date_revision: this.util.formatearFecha(this.formulario.get("fechaRevision")?.value),
+    }
+    this.apiService.crearRegistro(endpoint, body).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.mostrarSpinner = false;
+        this.mensajesService.mostrarMensajeExitoso("Producto creado satisfactoriamente.");
+        this.router.navigateByUrl('/pages/productos');
+      },
+      error => {
+        this.mostrarSpinner = false;
+        this.mensajesService.mostrarMensajeError('Error al crear producto. Por favor, inténtalo de nuevo más tarde.');
+        this.errorMessage = 'Error al crear producto. Por favor, inténtalo de nuevo más tarde.';
+        console.error(this.errorMessage, error);
+      }
+    );
+  }
+
+  editarProducto() {
+    console.log(this.isEdit);
+    this.mostrarSpinner = true;
+    let endpoint = "bp/products";
+    let body = {
+      id: this.formulario.get("id")?.value,
+      name: this.formulario.get("nombre")?.value,
+      description: this.formulario.get("descripcion")?.value,
+      logo: this.formulario.get("logo")?.value,
+      date_release: this.util.formatearFecha(this.formulario.get("fechaLiberacion")?.value),
+      date_revision: this.util.formatearFecha(this.formulario.get("fechaRevision")?.value),
+    }
+    this.apiService.editarRegistro(endpoint, body).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.mostrarSpinner = false;
+        this.mensajesService.mostrarMensajeExitoso("Producto actualizado satisfactoriamente.");
+        this.router.navigateByUrl('/pages/productos');
+      },
+      error => {
+        this.mostrarSpinner = false;
+        this.mensajesService.mostrarMensajeError('Error al actualizar producto. Por favor, inténtalo de nuevo más tarde.');
+        this.errorMessage = 'Error al actualizar producto. Por favor, inténtalo de nuevo más tarde.';
+        console.error(this.errorMessage, error);
+      }
+    );
+  }
+
 }

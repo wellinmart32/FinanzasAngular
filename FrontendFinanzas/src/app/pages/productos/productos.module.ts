@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchFilterPipe } from '../../shared/custom/search-filter.pipe';
 import { CrearEditarProductoComponent } from './crear-editar-producto/crear-editar-producto.component';
+import { CustomModule } from '../../shared/custom/custom.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CrearEditarProductoComponent } from './crear-editar-producto/crear-edit
     ProductosRoutingModule,
     FormsModule,
     FontAwesomeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CustomModule
   ]
 })
 export class ProductosModule { }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,14 +14,24 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerDatos(endpoint: string): Observable<any> {
+  obtenerDatos(endpoint: string, params?: HttpParams): Observable<any> {
     let headers = this.headers;
-    return this.http.get(this.baseUrl + endpoint, { headers }).pipe(
-      catchError(error => {
-        console.error('Error al obtener los registros', error);
-        return throwError(error);
-      })
-    );
+    return params ? this.http.get<any>(`${this.baseUrl}/${endpoint}`, { params, headers }) : this.http.get<any>(`${this.baseUrl}/${endpoint}`, { headers });
+  }
+
+  crearRegistro(endpoint: string, body: any, params?: HttpParams): Observable<any> {
+    let headers = this.headers;
+    return params ? this.http.post<any>(`${this.baseUrl}/${endpoint}`, body, { params, headers }) : this.http.post<any>(`${this.baseUrl}/${endpoint}`, body, { headers });
+  }
+
+  editarRegistro(endpoint: string, body: any, params?: HttpParams): Observable<any> {
+    let headers = this.headers;
+    return params ? this.http.put<any>(`${this.baseUrl}/${endpoint}`, body, { params, headers }) : this.http.put<any>(`${this.baseUrl}/${endpoint}`, body, { headers });
+  }
+
+  eliminarRegistro(endpoint: string, params?: HttpParams): Observable<any> {
+    let headers = this.headers;
+    return params ? this.http.delete<any>(`${this.baseUrl}/${endpoint}`, { params, headers }) : this.http.delete<any>(`${this.baseUrl}/${endpoint}`, { headers });
   }
 
 }
