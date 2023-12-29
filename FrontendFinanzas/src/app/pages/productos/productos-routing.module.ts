@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: ProductosComponent
-  },{
+  }, {
     path: 'crear-editar',
     component: CrearEditarProductoComponent
   },

@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular
 import { ApiService } from '../../services/api/api.service';
 
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+//ronnyts
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-productos',
@@ -40,10 +42,14 @@ export class ProductosComponent {
   // Agrega la propiedad noResults
   noResults: boolean = false;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.getProductos();
+  }
+  //ronnyts
+  agregarProducto() {
+    this.router.navigateByUrl('/pages/productos/crear-editar');
   }
 
   getProductos() {
@@ -76,11 +82,11 @@ export class ProductosComponent {
     }
   }
 
-  editarProducto(producto: any){
+  editarProducto(producto: any) {
 
   }
 
-  eliminarProducto(producto: any){
+  eliminarProducto(producto: any) {
 
   }
 
@@ -95,9 +101,9 @@ export class ProductosComponent {
     if (!event.target['closest']('.dropdown')) {
       this.mostrarDropdown = false;
       // Cambiar el valor de la casilla de verificación a false
-      
+
       this.dropdownCheckbox.nativeElement.checked = false;
-      
+
     }
   }
 }

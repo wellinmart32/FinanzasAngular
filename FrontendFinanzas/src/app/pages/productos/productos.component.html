@@ -1,6 +1,7 @@
 <div class="container">
-    <div class="search-bar">
-        <input type="text" placeholder="Search" [(ngModel)]="searchTerm" />
+    <div class="container-search-button">
+        <input class="search-bar" type="text" placeholder="Search..." [(ngModel)]="searchTerm" />
+        <button class="button-add" (click)="agregarProducto()">Agregar</button>
     </div>
 
     <table>
@@ -23,14 +24,19 @@
                     <td>{{ producto.description }}</td>
                     <td>{{ producto.date_release | date: 'dd/MM/yyyy'}}</td>
                     <td>{{ producto.date_revision | date: 'dd/MM/yyyy'}}</td>
-                    <td >
+                    <td>
                         <div class="custom-dropdown">
-                            <input type="checkbox" id="dropdown-toggle-{{ producto.id }}" class="dropdown-toggle" (click)="toggleDropdown($event)" #dropdownCheckbox>
+                            <input type="checkbox" id="dropdown-toggle-{{ producto.id }}" class="dropdown-toggle"
+                                (click)="toggleDropdown($event)" #dropdownCheckbox>
                             <label for="dropdown-toggle-{{ producto.id }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="4" viewBox="0 0 128 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>                            
+                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="4"
+                                    viewBox="0 0 128 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                                    <path
+                                        d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z" />
+                                </svg>
                             </label>
                             <!-- Menú desplegable con opciones Editar y Eliminar -->
-                            <div *ngIf="mostrarDropdown" class="dropdown-menu" >
+                            <div *ngIf="mostrarDropdown" class="dropdown-menu">
                                 <button (click)="editarProducto(producto)">Editar</button>
                                 <button (click)="eliminarProducto(producto)">Eliminar</button>
                             </div>

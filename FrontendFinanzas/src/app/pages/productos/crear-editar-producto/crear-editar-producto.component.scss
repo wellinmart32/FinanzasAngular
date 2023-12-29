@@ -1,0 +1,33 @@
+/* registro-formulario.component.css */
+.container {
+    width: 300px;
+    margin: auto;
+}
+
+.titulo {
+    text-align: center;
+}
+
+.body {
+    margin-top: 20px;
+}
+
+.fila {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.columna {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Estilo para resaltar los campos inválidos */
+input.ng-invalid {
+    border: 1px solid red;
+}
