@@ -2,11 +2,13 @@ import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular
 import { ApiService } from '../../services/api/api.service';
 
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-//ronnyts
+
 import { Router } from '@angular/router';
 import { SharedDataService } from '../../services/general/shared-data.service';
 import { MensajesService } from '../../services/general/mensajes.service';
 import { HttpParams } from '@angular/common/http';
+
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-productos',
@@ -40,38 +42,62 @@ export class ProductosComponent {
 
   faArrowLeft = faArrowLeft;
   faArrowRight = faArrowRight;
+  faEdit = faEdit;
+  faTrashAlt = faTrashAlt;
   // Agrega la propiedad noResults
   noResults: boolean = false;
 
   constructor(private apiService: ApiService,
-    private router: Router,
+    public router: Router,
     private sharedData: SharedDataService,
-    private mensajesService: MensajesService) { }
+    private mensajesService: MensajesService) {
 
-  ngOnInit(): void {
-    this.getProductos();
   }
-  //ronnyts
+
+  async ngOnInit(): Promise<void> {
+    await this.getProductos();
+  }
+
   agregarProducto() {
     this.router.navigateByUrl('/pages/productos/crear-editar');
   }
 
-  getProductos() {
-    let endpoint = "bp/products";
-    this.productosList = [];
-    this.mostrarSpinner = true;
-    this.apiService.obtenerDatos(endpoint).subscribe(
-      (data: any) => {
-        this.mostrarSpinner = false;
-        this.productosList = data;
-      },
-      error => {
-        this.mostrarSpinner = false;
-        this.errorMessage = 'Error al obtener productos financieros. Por favor, inténtalo de nuevo más tarde.';
-        console.error(this.errorMessage, error);
-      }
-    );
+  async getProductos() {
+    console.log('Inicio llamada getProducts');
+    try {
+      let endpoint = "bp/products";
+      this.productosList = [];
+      this.mostrarSpinner = true;
+
+      const data = await this.apiService.obtenerDatos(endpoint).toPromise();
+
+      console.log('Llamada a obtenerDatos con éxito', data);  // Agrega este log
+
+      this.mostrarSpinner = false;
+      this.productosList = data;
+    } catch (error: any) {
+      this.mostrarSpinner = false;
+      this.errorMessage = 'Error al obtener productos financieros. Por favor, inténtalo de nuevo más tarde.';
+      console.error(this.errorMessage, error);
+    }
   }
+
+  // getProductos() {
+  //   let endpoint = "bp/products";
+  //   this.productosList = [];
+  //   this.mostrarSpinner = true;
+  //   this.apiService.obtenerDatos(endpoint).subscribe(
+  //     (data: any) => {
+  //       this.mostrarSpinner = false;
+  //       this.productosList = data;
+  //     },
+  //     error => {
+  //       this.mostrarSpinner = false;
+  //       this.errorMessage = 'Error al obtener productos financieros. Por favor, inténtalo de nuevo más tarde.';
+  //       console.error(this.errorMessage, error);
+  //     }
+  //   );
+  // }
 
   get paginatedProductos(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -97,30 +123,56 @@ export class ProductosComponent {
   async eliminarProducto(producto: any) {
     const id = producto.id;
     const conf = await this.mensajesService.mostrarMensajeConfirmacion("¿Estas seguro de eliminar el producto " + producto.name + "?")
-    if (conf) {
-      this.mostrarSpinner = true;
-      // Acciones a realizar si el usuario confirmó
-      let parametros = new HttpParams().set('id', id);
-      let endpoint = "bp/products";
 
-      this.apiService.eliminarRegistro(endpoint, parametros).subscribe(
-        (data: any) => {
-          this.mostrarSpinner = false;
+    if (conf) {
+      try {
+        this.mostrarSpinner = true;
+        let parametros = new HttpParams().set('id', id);
+        const endpoint = 'bp/products';
+
+        await this.apiService.eliminarRegistro(endpoint, parametros).toPromise();
+
+        this.mostrarSpinner = false;
+        this.mensajesService.mostrarMensajeExitoso("Producto eliminado satisfactoriamente.");
+        this.getProductos();
+      } catch (error: any) {
+
+        this.mostrarSpinner = false;
+
+        if (error.status === 200) {
           this.mensajesService.mostrarMensajeExitoso("Producto eliminado satisfactoriamente.");
           this.getProductos();
-        },
-        error => {
-          this.mostrarSpinner = false;
-          if (error.status === 200) {
-            this.mensajesService.mostrarMensajeExitoso("Producto eliminado satisfactoriamente.");
-            this.getProductos();
-          } else {
-            this.mensajesService.mostrarMensajeError("Error al eliminar el producto. Por favor, inténtalo de nuevo más tarde.");
-            this.errorMessage = 'Error al eliminar el producto. Por favor, inténtalo de nuevo más tarde.';
-          }
+        } else {
+          this.mensajesService.mostrarMensajeError("Error al eliminar el producto. Por favor, inténtalo de nuevo más tarde.");
+          this.errorMessage = 'Error al eliminar el producto. Por favor, inténtalo de nuevo más tarde.';
         }
-      )
+      }
     }
+
+    // if (conf) {
+    //   this.mostrarSpinner = true;
+    //   // Acciones a realizar si el usuario confirmó
+    //   let parametros = new HttpParams().set('id', id);
+    //   let endpoint = "bp/products";
+
+    //   this.apiService.eliminarRegistro(endpoint, parametros).subscribe(
+    //     (data: any) => {
+    //       this.mostrarSpinner = false;
+    //       this.mensajesService.mostrarMensajeExitoso("Producto eliminado satisfactoriamente.");
+    //       this.getProductos();
+    //     },
+    //     error => {
+    //       this.mostrarSpinner = false;
+    //       if (error.status === 200) {
+    //         this.mensajesService.mostrarMensajeExitoso("Producto eliminado satisfactoriamente.");
+    //         this.getProductos();
+    //       } else {
+    //         this.mensajesService.mostrarMensajeError("Error al eliminar el producto. Por favor, inténtalo de nuevo más tarde.");
+    //         this.errorMessage = 'Error al eliminar el producto. Por favor, inténtalo de nuevo más tarde.';
+    //       }
+    //     }
+    //   )
+    // }
   }
 
   toggleDropdown(event: any) {
@@ -128,15 +180,13 @@ export class ProductosComponent {
     this.mostrarDropdown = !this.mostrarDropdown;
   }
 
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: any) {
-    // Ocultar el Drop Down si se hace clic fuera de él
-    if (!event.target['closest']('.dropdown')) {
-      this.mostrarDropdown = false;
-      // Cambiar el valor de la casilla de verificación a false
-
-      this.dropdownCheckbox.nativeElement.checked = false;
-
-    }
-  }
+  // @HostListener('document:click', ['$event'])
+  // onClickOutside(event: any) {
+  //   // Ocultar el Drop Down si se hace clic fuera de él
+  //   if (!event.target['closest']('.dropdown')) {
+  //     this.mostrarDropdown = false;
+  //     // Cambiar el valor de la casilla de verificación a false
+  //     this.dropdownCheckbox.nativeElement.checked = false;
+  //   }
+  // }
 }
