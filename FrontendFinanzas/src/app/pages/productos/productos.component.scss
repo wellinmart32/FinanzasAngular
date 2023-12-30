@@ -286,4 +286,11 @@ background-color: #f1f1f1;
         padding: 8px; /* Ajusta el espaciado interno según sea necesario */
         text-align: left; /* Ajusta la alineación del texto según sea necesario */
     }
+
+    .button-add {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+    }
   }
