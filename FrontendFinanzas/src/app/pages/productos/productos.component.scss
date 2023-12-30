@@ -10,6 +10,29 @@
     font-size: 12px;
     background-color: #ffffff;
     border-radius: 3px;
+
+    @media screen and (max-width: 900px) {
+        width: 100%;
+        height: auto;
+    }
+
+    @media screen and (max-width: 520px) {
+        .fila {
+            flex-direction: column;
+
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .columna {
+            width: 100%;
+        }
+    }
 }
 
 .container-search-button {
@@ -107,11 +130,6 @@ th {
     transition: background-color 0.3s, border-color 0.3s;
 }
 
-// .icon-button:hover {
-//     background-color: #93e9ff;
-//     border-color: #9dd5fa;
-// }
-
 .icon {
     font-size: 1.5em;
     color: rgb(124, 153, 255);
@@ -192,6 +210,83 @@ th {
     padding: 5px;
     text-decoration: none;
     color: #333;
+}
+
+// .table-container {
+//     width: 100%;
+//     overflow-x: auto;
+// }
+
+/* Establece un ancho máximo para evitar que la tabla se desborde del contenedor */
+.custom-table {
+    max-width: 100%;
+}
+
+/* Agrega estilos para la barra de desplazamiento horizontal si es necesario */
+/* Ajusta estos estilos según tus preferencias */
+::-webkit-scrollbar {
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para pantallas grandes (por ejemplo, computadoras de escritorio) */
+@media only screen and (min-width: 1024px) {
+    /* Agrega estilos específicos para pantallas grandes */
+}
+
+/* Estilos para pantallas medianas (por ejemplo, tablets) */
+@media only screen and (max-width: 1023px) and (min-width: 768px) {}
+
+/* Estilos para pantallas pequeñas (por ejemplo, dispositivos móviles) */
+@media only screen and (max-width: 767px) {
+    .search-bar {
+        margin-left: 3rem;
+        width: 30%;
+    }
+
+    .button-add {
+        margin-right: 3rem;
+        width: 20%;
+    }
+
+    .container-square {
+        width: 100%;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        /* Agrega un scrollbar horizontal si la tabla se desborda */
+    }
+
+    .custom-table {
+        width: 100%;
+        /* Hace que la tabla ocupe el 100% del ancho del contenedor */
+        white-space: nowrap;
+        /* Evita que el texto se envuelva a la siguiente línea */
+    }
+
+    .custom-table th,
+    .custom-table td {
+        padding: 8px;
+        /* Ajusta el espaciado interno según sea necesario */
+        text-align: left;
+        /* Ajusta la alineación del texto según sea necesario */
+    }
+
+    .button-add {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+    }
 }
 
 .dropdown-button-editar,
