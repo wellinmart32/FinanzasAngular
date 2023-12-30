@@ -44,7 +44,6 @@ export class ProductosComponent {
   faArrowRight = faArrowRight;
   faEdit = faEdit;
   faTrashAlt = faTrashAlt;
-  // Agrega la propiedad noResults
   noResults: boolean = false;
 
   constructor(private apiService: ApiService,
@@ -179,14 +178,4 @@ export class ProductosComponent {
     event.stopPropagation();
     this.mostrarDropdown = !this.mostrarDropdown;
   }
-
-  // @HostListener('document:click', ['$event'])
-  // onClickOutside(event: any) {
-  //   // Ocultar el Drop Down si se hace clic fuera de él
-  //   if (!event.target['closest']('.dropdown')) {
-  //     this.mostrarDropdown = false;
-  //     // Cambiar el valor de la casilla de verificación a false
-  //     this.dropdownCheckbox.nativeElement.checked = false;
-  //   }
-  // }
 }

@@ -1,16 +1,14 @@
-// spinner.component.ts
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'app-spinner',
-    template: `
+  selector: 'app-spinner',
+  template: `
     <div *ngIf="mostrar" class="spinner-container">
-      <!-- Aquí puedes agregar tu lógica de spinner, por ejemplo, un ícono o un gif de carga -->
       <div class="spinner"></div>
     </div>
   `,
-    styles: [
-        `
+  styles: [
+    `
       .spinner-container {
         position: fixed;
         top: 0;
@@ -42,8 +40,8 @@ import { Component, Input } from '@angular/core';
         }
       }
     `,
-    ],
+  ],
 })
 export class SpinnerComponent {
-    @Input() mostrar = false;
+  @Input() mostrar = false;
 }

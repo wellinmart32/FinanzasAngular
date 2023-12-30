@@ -21,7 +21,6 @@ describe('ApiService', () => {
   });
 
   it('debería ser creado', () => {
-    // Verifica que el servicio ApiService se haya creado correctamente.
     expect(service).toBeTruthy();
   });
 
