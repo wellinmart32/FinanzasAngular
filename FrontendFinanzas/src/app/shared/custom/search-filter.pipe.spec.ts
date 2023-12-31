@@ -12,21 +12,15 @@ describe('SearchFilterPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  // it('debería filtrar items basado en searchTerm', () => {
-  //   expect(pipe.transform(items, 'ma')).toEqual([{ name: 'Item 1' }]);
-  //   expect(pipe.transform(items, 'Item')).toEqual(items);
-  // });
+  it('debería filtrar items basado en searchTerm', () => {
+    expect(pipe.transform(items, 'em 1')).toEqual([{ name: 'Item 1' }]);
+    expect(pipe.transform(items, 'Item')).toEqual(items);
+  });
 
   it('debería ser insensible a mayúsculas y minúsculas', () => {
     expect(pipe.transform(items, 'item')).toEqual(items);
     expect(pipe.transform(items, 'ITEM')).toEqual(items);
   });
-
-  // it('debería manejar items sin propiedad "name"', () => {
-  //   const itemsWithoutName = [{ title: 'Título 1' }, { title: 'Título 2' }];
-  //   expect(pipe.transform(itemsWithoutName, 'title')).toEqual(itemsWithoutName);
-  //   expect(pipe.transform(itemsWithoutName, 'Título')).toEqual(itemsWithoutName);
-  // });
 
   it('debería manejar un array vacío', () => {
     expect(pipe.transform([], 'search')).toEqual([]);

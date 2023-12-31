@@ -16,13 +16,13 @@ export class UtilService {
     // Verificar si el objeto Date es válido
     if (isNaN(formattedDate.getTime())) {
       console.error('Fecha no válida:', dateString);
-      return '';  // O puedes devolver un valor predeterminado o lanzar un error, según tus necesidades.
+      return '';
     }
 
     // Formatear la fecha en el formato deseado
     const formattedYear = formattedDate.getFullYear();
     const formattedMonth = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
-    const formattedDay = formattedDate.getDate().toString().padStart(2, '0');
+    const formattedDay = formattedDate.getUTCDate().toString().padStart(2, '0');
 
     return `${formattedYear}-${formattedMonth}-${formattedDay}`;
   }

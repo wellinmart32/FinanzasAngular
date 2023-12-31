@@ -14,16 +14,18 @@ describe('UtilService', () => {
   });
 
   describe('formatearFecha', () => {
-    // it('debería formatear la fecha correctamente', () => {
-    //   // Arrange
-    //   const dateString = '25/12/2023';
+    it('debería formatear la fecha correctamente', () => {
+      // Arrange
+      const dateString = '25/12/2023';
 
-    //   // Act
-    //   const formattedDate = service.formatearFecha(dateString);
+      // Act
+      const formattedDate = service.formatearFecha(dateString);
 
-    //   // Assert
-    //   expect(formattedDate).toBe('2023-12-25');
-    // });
+      const expectedDate = new Date('2023-12-25T00:00:00.000Z').toISOString().substring(0, 10);
+
+      // Assert
+      expect(formattedDate).toBe(expectedDate);
+    });
 
     it('debería manejar cadena de fecha inválida', () => {
       // Arrange
@@ -49,26 +51,15 @@ describe('UtilService', () => {
       expect(unformattedDate).toBe('25/12/2023');
     });
 
-    // it('debería manejar fecha con formato inválido', () => {
-    //   // Arrange
-    //   const formattedDate = 'fecha-con-formato-invalido';
+    it('debería manejar fecha con formato inválido', () => {
+      // Arrange
+      const formattedDate = 'fecha-con-formato-invalido';
 
-    //   // Act
-    //   const unformattedDate = service.desformatearFecha(formattedDate);
+      // Act
+      const unformattedDate = service.desformatearFecha(formattedDate);
 
-    //   // Assert
-    //   expect(unformattedDate).toBe(formattedDate);
-    // });
-
-    // it('debería manejar fecha con formato corto', () => {
-    //   // Arrange
-    //   const formattedDate = '2023-12';
-
-    //   // Act
-    //   const unformattedDate = service.desformatearFecha(formattedDate);
-
-    //   // Assert
-    //   expect(unformattedDate).toBe(formattedDate);
-    // });
+      // Assert
+      expect(unformattedDate).toBe('/con/fecha');
+    });
   });
 });

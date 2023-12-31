@@ -9,7 +9,8 @@
                 <div class="fila">
                     <div class="columna">
                         <label>ID</label>
-                        <input [readonly]="isEdit" type="text" formControlName="id" placeholder="Ingrese un ID único" />
+                        <input readonly="{{isEdit}}" type="text" formControlName="id"
+                            placeholder="Ingrese un ID único" />
                         <div *ngIf="controlHasError('id', 'required')">
                             ID es requerido.
                         </div>

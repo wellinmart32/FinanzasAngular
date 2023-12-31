@@ -22,23 +22,43 @@ export class MensajesService {
     return this.mostrarMensaje('warning', 'Confirmación', mensaje, 'Cancelar', 'Confirmar');
   }
 
-  private mostrarMensaje(
+  // private mostrarMensaje(
+  //   icon: SweetAlertIcon,
+  //   titulo: string,
+  //   mensaje: string,
+  //   cancelButtonText?: string,
+  //   confirmButtonText?: string
+  // ): Promise<boolean> {
+  //   return Swal.fire({
+  //     icon,
+  //     title: titulo,
+  //     text: mensaje,
+  //     showCancelButton: cancelButtonText ? true : false,
+  //     cancelButtonText: cancelButtonText || '',
+  //     confirmButtonText: confirmButtonText || 'Aceptar'
+  //   }).then((result) => {
+  //     return result.isConfirmed;
+  //   });
+  // }
+
+  private async mostrarMensaje(
     icon: SweetAlertIcon,
     titulo: string,
     mensaje: string,
     cancelButtonText?: string,
     confirmButtonText?: string
   ): Promise<boolean> {
-    return Swal.fire({
+    const result = await Swal.fire({
       icon,
       title: titulo,
       text: mensaje,
       showCancelButton: cancelButtonText ? true : false,
       cancelButtonText: cancelButtonText || '',
       confirmButtonText: confirmButtonText || 'Aceptar'
-    }).then((result) => {
-      return result.isConfirmed;
     });
+
+    return result.isConfirmed;
   }
+
 
 }

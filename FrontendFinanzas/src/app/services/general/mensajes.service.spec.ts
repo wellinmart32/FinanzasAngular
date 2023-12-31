@@ -16,38 +16,44 @@ describe('MensajesService', () => {
     expect(service).toBeTruthy();
   });
 
-  // it('debería mostrar mensaje exitoso', () => {
-  //   service.mostrarMensajeExitoso('Mensaje de éxito');
-  //   expect(swalFireSpy).toHaveBeenCalledWith({
-  //     icon: 'success',
-  //     title: 'Éxito',
-  //     text: 'Mensaje de éxito',
-  //     showCancelButton: false,
-  //     confirmButtonText: 'Aceptar',
-  //   });
-  // });
+  it('debería mostrar mensaje exitoso', async () => {
+    service.mostrarMensajeExitoso('Mensaje de éxito');
+    await Promise.resolve();
+    expect(swalFireSpy).toHaveBeenCalledWith({
+      icon: 'success',
+      title: 'Éxito',
+      text: 'Mensaje de éxito',
+      showCancelButton: false,
+      cancelButtonText: '',
+      confirmButtonText: 'Aceptar',
+    });
+  });
 
-  // it('debería mostrar mensaje de error', () => {
-  //   service.mostrarMensajeError('Mensaje de error');
-  //   expect(swalFireSpy).toHaveBeenCalledWith({
-  //     icon: 'error',
-  //     title: 'Error',
-  //     text: 'Mensaje de error',
-  //     showCancelButton: false,
-  //     confirmButtonText: 'Aceptar',
-  //   });
-  // });
+  it('debería mostrar mensaje de error', async () => {
+    service.mostrarMensajeError('Mensaje de error');
+    await Promise.resolve();
+    expect(swalFireSpy).toHaveBeenCalledWith({
+      icon: 'error',
+      title: 'Error',
+      text: 'Mensaje de error',
+      showCancelButton: false,
+      cancelButtonText: '',
+      confirmButtonText: 'Aceptar',
+    });
+  });
 
-  // it('debería mostrar mensaje de información', () => {
-  //   service.mostrarMensajeInformacion('Mensaje de información');
-  //   expect(swalFireSpy).toHaveBeenCalledWith({
-  //     icon: 'info',
-  //     title: 'Información',
-  //     text: 'Mensaje de información',
-  //     showCancelButton: false,
-  //     confirmButtonText: 'Aceptar',
-  //   });
-  // });
+  it('debería mostrar mensaje de información', async () => {
+    service.mostrarMensajeInformacion('Mensaje de información');
+    await Promise.resolve();
+    expect(swalFireSpy).toHaveBeenCalledWith({
+      icon: 'info',
+      title: 'Información',
+      text: 'Mensaje de información',
+      showCancelButton: false,
+      cancelButtonText: '',
+      confirmButtonText: 'Aceptar',
+    });
+  });
 
   it('debería mostrar mensaje de confirmación y devolver true al confirmar', () => {
     swalFireSpy.and.returnValue(Promise.resolve({ isConfirmed: true }));

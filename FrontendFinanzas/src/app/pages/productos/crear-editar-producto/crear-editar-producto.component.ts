@@ -5,14 +5,21 @@ import { ApiService } from '../../../services/api/api.service';
 import { HttpParams } from '@angular/common/http';
 import { MensajesService } from '../../../services/general/mensajes.service';
 import { UtilService } from '../../../services/general/util.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedDataService } from '../../../services/general/shared-data.service';
 
+// const today = new Date();
+// today.setUTCHours(0, 0, 0, 0);
+// const dd = String(today.getUTCDate()).padStart(2, '0');
+// const mm = String(today.getUTCMonth() + 1).padStart(2, '0'); // El mes es devuelto de 0 a 11, entonces se suma 1
+// const yyyy = today.getUTCFullYear();
+
 const today = new Date();
-today.setUTCHours(0, 0, 0, 0);
+today.setUTCHours(today.getUTCHours() - 5); // Ajustar a UTC-5
 const dd = String(today.getUTCDate()).padStart(2, '0');
 const mm = String(today.getUTCMonth() + 1).padStart(2, '0'); // El mes es devuelto de 0 a 11, entonces se suma 1
 const yyyy = today.getUTCFullYear();
+
 
 const todayDatePattern = new RegExp(`^${dd}/${mm}/${yyyy}$`);
 const datePattern = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/;
@@ -37,7 +44,8 @@ export class CrearEditarProductoComponent {
     private mensajesService: MensajesService,
     private util: UtilService,
     private router: Router,
-    private sharedData: SharedDataService) {
+    private sharedData: SharedDataService,
+    private route: ActivatedRoute) {
 
     this.formulario = this.fb.group({
       id: ['', [
@@ -70,16 +78,48 @@ export class CrearEditarProductoComponent {
   }
 
   ngOnInit() {
-    this.mostrarSpinner = true;
-    this.sharedData.productoActual.subscribe(producto => {
-      // Lógica cuando el producto cambia
-      if (producto) {
-        this.isEdit = true;
-        this.mostrarSpinner = false;
-        this.llenarFormulario(producto);
-      }
-    });
-    if (!this.isEdit) this.mostrarSpinner = false;
+    const isEdit = this.route.snapshot.paramMap.get('isEdit') === 'true';
+
+    if (isEdit) {
+      this.mostrarSpinner = true;
+      this.sharedData.productoActual.subscribe(producto => {
+        if (producto) {
+          this.mostrarSpinner = false;
+
+          this.formulario = this.fb.group({
+            id: ['', [
+              Validators.required,
+              Validators.minLength(3),
+              Validators.maxLength(10),
+            ]],
+            nombre: ['', [
+              Validators.required,
+              Validators.minLength(5),
+              Validators.maxLength(100)
+            ]],
+            descripcion: ['', [
+              Validators.required,
+              Validators.minLength(10),
+              Validators.maxLength(200)
+            ]],
+            logo: ['', [Validators.required]],
+            fechaLiberacion: ['', [
+              Validators.required,
+              Validators.pattern(datePattern), // Fecha debe ser hoy o despues
+              this.fechaLiberacionValidator,
+            ]],
+            fechaRevision: ['', [
+              Validators.required
+            ]],
+          });
+
+          this.llenarFormulario(producto);
+        } else {
+          this.mostrarSpinner = false;
+          this.isEdit = false;
+        }
+      });
+    }
   }
 
   llenarFormulario(producto: any) {
@@ -133,20 +173,16 @@ export class CrearEditarProductoComponent {
   }
 
 
-  // Función personalizada de validación
   fechaLiberacionValidator(control: FormControl) {
     const inputDate = control.value;
 
-    // Validar el formato con la expresión regular
     if (!datePattern.test(inputDate)) {
       return { invalidFormat: true };
     }
 
-    // Obtener las partes del inputDate
     const [inputDay, inputMonth, inputYear] = inputDate.split('/');
     const parsedInputDate = new Date(inputYear + '-' + inputMonth + '-' + inputDay);
 
-    // Comparar las fechas
     if (
       parsedInputDate.toString() === 'Invalid Date' ||
       parsedInputDate.getTime() < today.getTime()
@@ -154,7 +190,7 @@ export class CrearEditarProductoComponent {
       return { dateIsPast: true };
     }
 
-    return null; // La fecha es válida
+    return null;
   }
 
   llenarFechaRevision(evento: any) {
@@ -172,11 +208,18 @@ export class CrearEditarProductoComponent {
   }
 
   volverFormulario() {
+    this.isEdit = false;
+    this.reiniciarFormulario();
+    console.log(this.formulario.value);
     this.router.navigateByUrl('/pages/productos');
   }
 
   reiniciarFormulario() {
+    const id = this.formulario.get('id')?.value;
+
     this.formulario.reset();
+    this.formulario.get('id')?.setValue(id);
+
   }
 
   enviarFormulario() {

@@ -62,15 +62,12 @@ export class ProductosComponent {
   }
 
   async getProductos() {
-    console.log('Inicio llamada getProducts');
     try {
       let endpoint = "bp/products";
       this.productosList = [];
       this.mostrarSpinner = true;
 
       const data = await this.apiService.obtenerDatos(endpoint).toPromise();
-
-      console.log('Llamada a obtenerDatos con éxito', data);  // Agrega este log
 
       this.mostrarSpinner = false;
       this.productosList = data;
@@ -116,7 +113,8 @@ export class ProductosComponent {
 
   editarProducto(producto: any) {
     this.sharedData.actualizarProducto(producto);
-    this.router.navigateByUrl('/pages/productos/crear-editar');
+    const isEdit = true;
+    this.router.navigate(['/pages/productos/crear-editar', { isEdit }]);
   }
 
   async eliminarProducto(producto: any) {

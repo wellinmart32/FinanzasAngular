@@ -4,7 +4,6 @@
     min-height: 32rem;
     border-radius: 3px;
     background-color: #fff;
-    // display: flex;
     flex-direction: column;
 
     @media screen and (max-width: 900px) {
@@ -90,7 +89,7 @@ hr {
 }
 
 .button-volver {
-    background-color: rgb(133, 210, 164);
+    background-color: #caacd7;
 }
 
 .button-reiniciar {

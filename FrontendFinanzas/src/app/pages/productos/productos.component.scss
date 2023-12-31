@@ -74,7 +74,6 @@ table,
 th,
 td {
     border: none;
-    /* Elimina los bordes predeterminados */
     border-bottom: 1px solid #ddd;
 }
 
@@ -105,9 +104,7 @@ th {
 .pagination-container {
     display: flex;
     align-items: center;
-    /* Centra verticalmente los elementos en el contenedor */
     gap: .5rem;
-    /* Ajusta el espacio horizontal entre los elementos según sea necesario */
 }
 
 .pagination-square {
@@ -139,15 +136,10 @@ th {
 
 .page-info {
     background-color: #ffffff;
-    /* Fondo celeste */
     border: .1px solid #b5b5b5;
-    /* Borde azul */
     border-radius: 4px;
-    /* Borde redondeado */
     padding: 4px 8px;
-    /* Ajusta el espaciado interno según sea necesario */
     font-size: 14px;
-    /* Ajusta el tamaño de fuente según sea necesario */
     user-select: none;
 }
 
@@ -160,22 +152,15 @@ th {
     width: 100%;
     box-sizing: border-box;
     font-size: 14px;
-    /* Ajusta el tamaño de fuente según sea necesario */
     padding: 5px;
-    /* Ajusta el espaciado interno según sea necesario */
     margin: 0;
     border: 1px solid #ccc;
-    /* Borde del input */
     border-radius: 4px;
-    /* Borde redondeado */
     outline: none;
-    /* Quita el contorno predeterminado al hacer clic */
 }
 
-/* Estilo adicional para resaltar el input al enfocarlo */
 .auto-sizing-input:focus {
     border-color: #3498db;
-    /* Cambia el color del borde al enfocar el input */
 }
 
 .custom-dropdown {
@@ -212,18 +197,10 @@ th {
     color: #333;
 }
 
-// .table-container {
-//     width: 100%;
-//     overflow-x: auto;
-// }
-
-/* Establece un ancho máximo para evitar que la tabla se desborde del contenedor */
 .custom-table {
     max-width: 100%;
 }
 
-/* Agrega estilos para la barra de desplazamiento horizontal si es necesario */
-/* Ajusta estos estilos según tus preferencias */
 ::-webkit-scrollbar {
     height: 12px;
 }
@@ -237,15 +214,10 @@ th {
     background-color: #f1f1f1;
 }
 
-/* Estilos para pantallas grandes (por ejemplo, computadoras de escritorio) */
-@media only screen and (min-width: 1024px) {
-    /* Agrega estilos específicos para pantallas grandes */
-}
+@media only screen and (min-width: 1024px) {}
 
-/* Estilos para pantallas medianas (por ejemplo, tablets) */
 @media only screen and (max-width: 1023px) and (min-width: 768px) {}
 
-/* Estilos para pantallas pequeñas (por ejemplo, dispositivos móviles) */
 @media only screen and (max-width: 767px) {
     .search-bar {
         margin-left: 3rem;
@@ -263,22 +235,17 @@ th {
 
     .table-container {
         overflow-x: auto;
-        /* Agrega un scrollbar horizontal si la tabla se desborda */
     }
 
     .custom-table {
         width: 100%;
-        /* Hace que la tabla ocupe el 100% del ancho del contenedor */
         white-space: nowrap;
-        /* Evita que el texto se envuelva a la siguiente línea */
     }
 
     .custom-table th,
     .custom-table td {
         padding: 8px;
-        /* Ajusta el espaciado interno según sea necesario */
         text-align: left;
-        /* Ajusta la alineación del texto según sea necesario */
     }
 
     .button-add {
@@ -301,11 +268,9 @@ th {
 .dropdown-button-editar:hover,
 .dropdown-button-eliminar:hover {
     background-color: #f0f0f0;
-    /* Cambia el color de fondo al pasar el ratón sobre el botón */
 }
 
 .icon {
     font-size: 1.2em;
     color: #3498db;
-    /* Cambia el color del icono según tus preferencias */
 }
